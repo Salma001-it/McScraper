@@ -12,8 +12,8 @@ options.add_argument("--headless")
 options.add_argument("--width=1920")        # larghezza finestra
 options.add_argument("--height=1080")       # altezza finestra
 driver = webdriver.Firefox(options=options)
-
-oggi = date.today()
+oggi = datetime.now().strftime("%Y-%m-%d")
+realtime_ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 import os
 link = "https://www.google.it/maps/place/McDonald's+Dossobuono/@45.389607,10.9007287,17z/data=!4m6!3m5!1s0x4781e089d18461af:0x1eed8b83b934aa4c!8m2!3d45.389607!4d10.9033036!16s%2Fg%2F11cs39j4gr?entry=ttu&g_ep=EgoyMDI1MDQzMC4xIKXMDSoASAFQAw%3D%3D"
 driver.get(link)
@@ -43,7 +43,7 @@ try:
     Tot_affluenza = driver.find_elements(By.CLASS_NAME, "dpoVLd")
    # with lock:
     with open(f'Dossobuono.csv', 'a', newline='', encoding='utf-8') as csvfile:
-          fieldnames = ['Affluenza', 'Locale', 'Recensioni', 'Via','Link','Oggi','RealTime']
+          fieldnames = ['Affluenza', 'Locale', 'Recensioni', 'Via','Link','Oggi','RealTime','Timestamp']
           writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
           if write_header:
             writer.writeheader()  # scrive l'header solo se il file non esiste o è vuoto
@@ -52,7 +52,7 @@ try:
               out = driver.find_element(By.CLASS_NAME, "DUwDvf").text
               recensione = driver.find_element(By.CLASS_NAME, "F7nice").text.replace("\n", " ")
               via = driver.find_element(By.CLASS_NAME, "Io6YTe").text
-              writer.writerow({'Affluenza': estrattore, 'Locale': out, 'Recensioni': recensione, 'Via': via,'Link':link,'Oggi': oggi,'RealTime':affollamento_text})
+              writer.writerow({'Affluenza': estrattore, 'Locale': out, 'Recensioni': recensione, 'Via': via,'Link':link,'Oggi': oggi,'RealTime':affollamento_text,'Timestamp': realtime_ts})
               csvfile.flush()
                   #print(estrattore, out, recensione)  # Debug
 
