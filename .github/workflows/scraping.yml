@@ -26,7 +26,14 @@ jobs:
       - name: Run scraper
         run: |
           python Scraper.py
-
+          
+      - name: Verifica CSV generato 
+        run: |
+          echo "=== Contenuto CSV ==="
+          cat Dossobuono.csv
+          echo "=== Dimensione file ==="
+          ls -la Dossobuono.csv
+    
       - name: Commit CSV aggiornato
         run: |
           git config --global user.name "github-actions"
